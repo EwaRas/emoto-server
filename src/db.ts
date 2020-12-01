@@ -57,7 +57,27 @@ const motosArr: Moto[] = [
     battery: 91,
   },
 ];
-export = {
-  motosArr,
-  favArr,
+
+const user = {
+  _id: '123',
+  name: 'ewa',
+  password: 'hello',
+  lat: 41.39568,
+  lng: 2.1902,
+  favorites: [
+    {
+      label: 'Codeworks',
+      destination: `Carrer d'Avila 27, Barcelona`,
+      lat: 41.395121557960834,
+      lng: 2.1979545270592546,
+    },
+    {
+      label: 'Home',
+      destination: `Carrer de Mallorca 278, 08037 Barcelona`,
+      lat: 41.39566,
+      lng: 2.16501,
+    },
+  ],
 };
+
+export { motosArr, user };
