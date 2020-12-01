@@ -62,8 +62,8 @@ const user = {
   _id: '123',
   name: 'ewa',
   password: 'hello',
-  lat: 41.39568,
-  lng: 2.1902,
+  lat: 40.39568,
+  lng: 2.5902,
   favorites: [
     {
       label: 'Codeworks',
