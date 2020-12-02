@@ -6,9 +6,9 @@ import { motosArr, user } from '../db';
 @Injectable()
 export class TestApiService {
   getAllMotos(): Moto[] {
-    return motosArr;
+    return [...motosArr];
   }
-  getUserFavourites(): User {
-    return user;
+  getUserWithFavourites(): User {
+    return { ...user };
   }
 }

@@ -12,6 +12,6 @@ export class TestApiController {
   }
   @Post()
   async getUserInfo(@Body() userInfo: User) {
-    return this.testApiService.getUserFavourites();
+    return this.testApiService.getUserWithFavourites();
   }
 }

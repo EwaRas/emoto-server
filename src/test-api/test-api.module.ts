@@ -5,5 +5,6 @@ import { TestApiService } from './test-api.service';
 @Module({
   controllers: [TestApiController],
   providers: [TestApiService],
+  exports: [TestApiService],
 })
 export class TestApiModule {}
