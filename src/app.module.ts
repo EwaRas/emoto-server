@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TestApiModule } from './test-api/test-api.module';
 import { MapboxApiModule } from './mapbox-api/mapbox-api.module';
 import { UserModule } from './user/user.module';
+import { MongooseModule } from '@nestjs/mongoose';
 import { MapModule } from './map/map.module';
 
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb://localhost/emoto-app'),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TestApiModule,
     MapboxApiModule,
     UserModule,
     MapModule,

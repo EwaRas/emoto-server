@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { FluctuoService } from 'src/api-services/fluctuo/fluctuo.service';
-import { MapService } from 'src/map/map.service';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
+import { UserSchema } from './user.schema';
 import { UserService } from './user.service';
 
 @Module({
+  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
   controllers: [UserController],
   providers: [UserService],
-  imports: [MapService, FluctuoService],
+  exports: [UserService],
 })
 export class UserModule {}

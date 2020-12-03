@@ -1,21 +1,26 @@
-import { Controller, Post, Body, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Put } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from 'src/interfaces/user.interface';
+import { UserDocument } from './user.schema';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+  // todo change to Get passing auth headers
   @Post()
-  async updateUserLocation(@Body() userDetails: User) {
-    //userDetails: username, password, lat, lng
-    const user = await this.userService.updateCurrentLocation(userDetails);
-    return user;
+  login(@Body('username') username: string): Promise<boolean> {
+    return this.userService.validateUsername(username);
   }
 
-  @Patch()
-  updateUserFavDestinations() {
-    //params: @Body: {userId: string, label: string}
-    const user = await this.userService.updateFavDestinations();
-    return user;
+  @Put('info')
+  getUser(
+    @Body('username') username: string,
+    @Body('latitude') latitude: number,
+    @Body('longitude') longitude: number,
+  ): Promise<UserDocument> {
+    return this.userService.addLocationAndGetUser(
+      username,
+      latitude,
+      longitude,
+    );
   }
 }
