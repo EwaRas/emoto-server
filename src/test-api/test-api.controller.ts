@@ -3,7 +3,7 @@ import { Moto } from '../interfaces/motos.interface';
 import { User } from '../interfaces/user.interface';
 import { TestApiService } from './test-api.service';
 
-@Controller('test')
+@Controller('user')
 export class TestApiController {
   constructor(private testApiService: TestApiService) {}
   @Get()

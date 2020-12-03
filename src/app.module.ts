@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TestApiModule } from './test-api/test-api.module';
 import { MapboxApiModule } from './mapbox-api/mapbox-api.module';
+import { UserModule } from './user/user.module';
+import { MapModule } from './map/map.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { MapboxApiModule } from './mapbox-api/mapbox-api.module';
     }),
     TestApiModule,
     MapboxApiModule,
+    UserModule,
+    MapModule,
   ],
   controllers: [AppController],
   providers: [AppService],
