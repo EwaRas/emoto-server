@@ -21,36 +21,15 @@ export class MapService {
     latitude: number;
     longitude: number;
   }) {
-    const query = {
-      query: `query ($vehicleTypes: [VehicleType], $lat: Float!, $lng: Float!) {
-        vehicles (vehicleTypes: $vehicleTypes, lat: $lat, lng: $lng) {
-          id
-          publicId
-          type
-          lat
-          lng
-          provider {
-            name
-          }
-          battery
-        }
-      }`,
-      variables: {
-        vehicleTypes: 'MOTORSCOOTER',
-        lat: userCoordinates.latitude,
-        lng: userCoordinates.longitude,
-      },
-    };
-
     const motos = await this.fluctuoService
-      .getMotosNearUser(query) //todo pass coordinates to build query in fluctuo service
+      .getMotosNearUser(userCoordinates)
       .toPromise()
       .then((result) => {
         console.log('result', result);
 
         return result.data.vehicles;
       })
-      .catch((err) => console.log('error getting motos from fluctio'));
+      .catch((err) => console.log('error getting motos from fluctuo'));
     // console.log('motosPromise', motosPromise);
 
     return motos;

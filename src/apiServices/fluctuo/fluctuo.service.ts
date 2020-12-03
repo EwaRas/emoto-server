@@ -14,7 +14,30 @@ export class FluctuoService {
 
   private token = this.configService.get('FLUCTUO_TOKEN');
 
-  getMotosNearUser(userCoordinates): Observable<any> {
+  getMotosNearUser(userCoordinates: {
+    latitude: number;
+    longitude: number;
+  }): Observable<any> {
+    const query = {
+      query: `query ($vehicleTypes: [VehicleType], $lat: Float!, $lng: Float!) {
+        vehicles (vehicleTypes: $vehicleTypes, lat: $lat, lng: $lng) {
+          id
+          publicId
+          type
+          lat
+          lng
+          provider {
+            name
+          }
+          battery
+        }
+      }`,
+      variables: {
+        vehicleTypes: 'MOTORSCOOTER',
+        lat: userCoordinates.latitude,
+        lng: userCoordinates.longitude,
+      },
+    };
     return this.https
       .post(
         `https://flow-api.fluctuo.com/v1?access_token=${this.token}`,

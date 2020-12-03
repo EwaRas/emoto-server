@@ -462,13 +462,13 @@ const motosArr: Moto[] = [
 ];
 
 const user = {
-  favorites_id: '123',
+  _id: '123',
   name: 'ewa',
   password: 'hello',
   //Les Corts
   lat: 41.387329136692856,
   lng: 2.132920991528672,
-  favorites: [
+  favourites: [
     {
       label: 'Codeworks',
       destination: `Carrer d'Avila 27, Barcelona`,
