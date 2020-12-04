@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { FluctuoService } from 'src/apiServices/fluctuo/fluctuo.service';
+import { FluctuoService } from 'src/apiServices/fluctuo.service';
+import { MapboxService } from 'src/apiServices/mapbox.service';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -7,31 +8,96 @@ export class MapService {
   constructor(
     private readonly userService: UserService,
     private readonly fluctuoService: FluctuoService,
+    private readonly mapboxService: MapboxService,
   ) {}
 
-  async getMotosSortedByTime(adress: string, username: string) {
+  private addTravelTimeToMotos(motos, travelTimesArr, travelType) {
+    const motosWithAddedTime = motos.map((moto, index) => {
+      if (index <= travelTimesArr.length - 1) {
+        return { ...moto, [travelType]: travelTimesArr[index] };
+      } else {
+        return { ...moto, [travelType]: null };
+      }
+    });
+
+    if (travelType === 'driveTime') {
+      return motosWithAddedTime.map((moto) => {
+        if (moto.driveTime) {
+          return { ...moto, totalTravelTime: moto.walkTime + moto.driveTime };
+        } else {
+          return { ...moto, totalTravelTime: null };
+        }
+      });
+    } else {
+      return motosWithAddedTime;
+    }
+  }
+
+  private async getMotosNearUser(userCoordinates: {
+    latitude: number;
+    longitude: number;
+  }) {
+    try {
+      const response = await this.fluctuoService
+        .getMotosNearUser(userCoordinates)
+        .toPromise();
+      const { vehicles } = await response.data;
+      return vehicles;
+    } catch (error) {
+      (error) => console.log('error getting motos from fluctuo', error);
+    }
+  }
+
+  async getMotosSortedByTime(address: string, username: string) {
     // get current location
     const userCoordinates = await this.userService.getUserLocation(username);
     // get bikes from Fluctuo
     const motosNearUser = await this.getMotosNearUser(userCoordinates);
-    return motosNearUser;
-  }
+    // get walking times from user location
+    const walkingTimes = await this.mapboxService.getWalkingTimes(
+      userCoordinates,
+      motosNearUser,
+    );
+    // add walking time to each moto
+    const motosWithWalkTimes = this.addTravelTimeToMotos(
+      motosNearUser,
+      walkingTimes,
+      'walkTime',
+    );
+    // sort motos by ascending walkTime
+    const sortedMotosByWalkTime = motosWithWalkTimes.sort(function (
+      motoA,
+      motoB,
+    ) {
+      return motoA.walkTime - motoB.walkTime;
+    });
 
-  async getMotosNearUser(userCoordinates: {
-    latitude: number;
-    longitude: number;
-  }) {
-    const motos = await this.fluctuoService
-      .getMotosNearUser(userCoordinates)
-      .toPromise()
-      .then((result) => {
-        console.log('result', result);
+    // get coordinates of the end destination and stringify them
+    const [
+      destinationLongitude,
+      destinationLatitude,
+    ] = await this.mapboxService.getCoordinates(address);
+    const destinationCoordinatesToString = `${destinationLongitude},${destinationLatitude};`;
 
-        return result.data.vehicles;
-      })
-      .catch((err) => console.log('error getting motos from fluctuo'));
-    // console.log('motosPromise', motosPromise);
+    // get driving times from 10 closer motos to end destination
+    const drivingTimes = await this.mapboxService.getDrivingTime(
+      sortedMotosByWalkTime,
+      destinationCoordinatesToString,
+    );
+    // add driving time and total time to each moto
+    const motosWithDrivingAndTotalTimes = this.addTravelTimeToMotos(
+      sortedMotosByWalkTime,
+      drivingTimes,
+      'driveTime',
+    );
 
-    return motos;
+    // sort motos by ascending TotalTravelTime
+    const sortedMotosByTotalTravelTime = motosWithDrivingAndTotalTimes.sort(
+      function (motoA, motoB) {
+        if (motoA.totalTravelTime !== null && motoB.totalTravelTime !== null)
+          return motoA.totalTravelTime - motoB.totalTravelTime;
+      },
+    );
+    return sortedMotosByTotalTravelTime;
   }
 }

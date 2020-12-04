@@ -1,6 +1,6 @@
 export interface Moto {
   id: string;
-  publicId: string;
+  publicId: string | null;
   type: string;
   lat: number;
   lng: number;
@@ -8,4 +8,7 @@ export interface Moto {
     name: string;
   };
   battery: number;
+  walkTime?: number;
+  driveTime?: number | null;
+  totalTime?: number | null;
 }
