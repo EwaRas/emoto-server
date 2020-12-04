@@ -116,7 +116,6 @@ export class MapboxService {
       destinationToString,
       'driving-traffic',
     );
-    console.log('url', url);
 
     try {
       const result = await this.getFromMapbox(url).toPromise();
@@ -126,15 +125,3 @@ export class MapboxService {
     }
   }
 }
-
-// ? endpoint + moto locations
-// 41.389325,2.168926;
-// 41.38368,2.14267;
-// 41.380649999999996,2.1417666666666664;
-// 41.38257,2.142238;
-// 41.383878,2.142598;
-// 41.383379999999995,2.14243;
-// 41.382496,2.142158;
-// 41.380916666666664,2.1420283333333336;
-// 41.381269,2.141642;
-// 41.384102,2.142496

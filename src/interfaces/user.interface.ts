@@ -1,4 +1,4 @@
-import { FavDest } from './favDest.interface';
+import { FavouriteDestination } from './favouriteDestination.interface';
 
 export interface User {
   _id?: string;
@@ -6,5 +6,5 @@ export interface User {
   password: string;
   lat: number;
   lng: number;
-  favorites?: FavDest[];
+  favorites?: FavouriteDestination[];
 }
