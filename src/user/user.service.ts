@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from 'src/interfaces/user.interface';
+import { FavouriteDestination } from 'src/interfaces/favouriteDestination.interface';
 import { UserDocument } from './user.schema';
 
 @Injectable()
@@ -43,14 +43,29 @@ export class UserService {
     latitude: number;
     longitude: number;
   }> {
-    const { latitude, longitude } = await this.userModel.findOne({ username });
-    return { latitude, longitude };
+    try {
+      const { latitude, longitude } = await this.userModel.findOne({
+        username,
+      });
+      return { latitude, longitude };
+    } catch (error) {
+      console.log('error getting user location from db', error);
+    }
   }
 
-  updateFavDestinations() {
-    //params: @Body: {userId: string, label: string}
-    // const destination = this.mapService.getDestinationInfo();
-    //destination = {address: string, lat: number, lng: number}
-    //call db, update user.favorites[{label, address, lat, lng}]
+  async updateUserFavouriteDestinations(
+    _id: string,
+    newFavourites: FavouriteDestination[],
+  ): Promise<UserDocument> {
+    try {
+      const updatedUser: UserDocument = await this.userModel.findByIdAndUpdate(
+        { _id },
+        { $set: { favourites: newFavourites } },
+        { new: true },
+      );
+      return updatedUser;
+    } catch (error) {
+      console.log('error updating user favourites from db', error);
+    }
   }
 }

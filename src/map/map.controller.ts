@@ -7,7 +7,7 @@ export class MapController {
   constructor(private mapService: MapService) {}
   @Post()
   getMotosSortedByTime(
-    @Body('address') address: string,
+    @Body('destination') address: string,
     @Body('username') username: string,
   ) {
     return this.mapService.getMotosSortedByTime(address, username);
