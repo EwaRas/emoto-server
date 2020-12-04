@@ -98,6 +98,22 @@ export class MapService {
           return motoA.totalTravelTime - motoB.totalTravelTime;
       },
     );
-    return sortedMotosByTotalTravelTime;
+
+    // change property lng and lat to match with frontend requirements
+    return sortedMotosByTotalTravelTime.map((moto) => {
+      const motoWithTheRightPopertyNames = {
+        id: moto.id,
+        publicId: moto.publicId,
+        type: moto.type,
+        latitude: moto.lat,
+        longitude: moto.lng,
+        provider: moto.provider,
+        battery: moto.battery,
+        walkTime: moto.walkTime,
+        driveTime: moto.driveTime,
+        totalTravelTime: moto.totalTravelTime,
+      };
+      return motoWithTheRightPopertyNames;
+    });
   }
 }

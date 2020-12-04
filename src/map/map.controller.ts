@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { Moto } from 'src/interfaces/motos.interface';
 import { MapService } from './map.service';
 
 @Controller('map')

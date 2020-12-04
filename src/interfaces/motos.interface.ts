@@ -2,8 +2,8 @@ export interface Moto {
   id: string;
   publicId: string | null;
   type: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
   provider: {
     name: string;
   };
