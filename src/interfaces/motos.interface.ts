@@ -10,5 +10,6 @@ export interface Moto {
   battery: number;
   walkTime?: number;
   driveTime?: number | null;
-  totalTime?: number | null;
+  totalTravelTime?: number | null;
+  isIncomming?: boolean;
 }

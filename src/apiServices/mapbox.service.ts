@@ -26,27 +26,35 @@ export class MapboxService {
 
   private buildCoordinatesString(array) {
     return array.reduce((acc, moto, index) => {
-      acc += `${moto.lng},${moto.lat}${index !== array.length - 1 ? ';' : ''}`;
+      if (moto.lng && moto.lat) {
+        acc += `${moto.lng},${moto.lat}${
+          index !== array.length - 1 ? ';' : ''
+        }`;
+      } else if (moto.longitude && moto.latitude) {
+        acc += `${moto.longitude},${moto.latitude}${
+          index !== array.length - 1 ? ';' : ''
+        }`;
+      }
       return acc;
     }, '');
   }
 
-  private buildUrl(motosArr, userCoordinates, mode) {
-    if (mode === 'walking') {
+  private buildUrl(motosArr, userCoordinates, travelMode, dataMode) {
+    if (travelMode === 'walking') {
       const urlArr = [];
       motosArr.forEach((motoSubArray) => {
         const motosCoordinates = this.buildCoordinatesString(motoSubArray);
         urlArr.push(
-          `${this.mapboxURL}/directions-matrix/v1/mapbox/${mode}/${userCoordinates}${motosCoordinates}?sources=0&access_token=${this.token}`,
+          `${this.mapboxURL}/directions-matrix/v1/mapbox/${travelMode}/${userCoordinates}${motosCoordinates}?sources=0&annotations=${dataMode}&access_token=${this.token}`,
         );
       });
       return urlArr;
-    } else if (mode === 'driving-traffic') {
+    } else if (travelMode === 'driving-traffic') {
       const url = `${
         this.mapboxURL
-      }/directions-matrix/v1/mapbox/${mode}/${userCoordinates}${this.buildCoordinatesString(
+      }/directions-matrix/v1/mapbox/${travelMode}/${userCoordinates}${this.buildCoordinatesString(
         motosArr,
-      )}?sources=0&access_token=${this.token}`;
+      )}?sources=0&annotations=${dataMode}&access_token=${this.token}`;
       return url;
     } else {
       console.log('Mode should be walking or driving-traffic');
@@ -65,32 +73,37 @@ export class MapboxService {
     return address.split(' ').join('%20');
   }
 
-  // main function
-
-  async getWalkingTimes(
+  async getWalkingData(
     userCoordinates: {
       latitude: number;
       longitude: number;
     },
     motosNearUser: Moto[],
+    dataMode: string,
   ) {
     const userCoordinatesToString = `${userCoordinates.longitude},${userCoordinates.latitude};`;
     const nestedMotosArray = this.splitArray(motosNearUser);
-    const walkingTimes = [];
+    const walkingData = [];
     const apiUrls = this.buildUrl(
       nestedMotosArray,
       userCoordinatesToString,
       'walking',
+      dataMode,
     );
     for (let i = 0; i < apiUrls.length; i++) {
       try {
         const result = await this.getFromMapbox(apiUrls[i]).toPromise();
-        walkingTimes.push(...result.durations[0].slice(1));
+        if (dataMode === 'duration') {
+          walkingData.push(...result.durations[0].slice(1));
+        } else if (dataMode === 'distance') {
+          console.log('distances results from mapbox', result);
+          walkingData.push(...result.distances[0].slice(1));
+        }
       } catch (err) {
-        console.log('Error getting walking times', err);
+        console.log('Error getting walking data', err);
       }
     }
-    return walkingTimes;
+    return walkingData;
   }
 
   async getCoordinates(address: string): Promise<[number, number]> {
@@ -110,11 +123,13 @@ export class MapboxService {
   async getDrivingTime(
     sortedMotosByWalkTime: Moto[],
     destinationToString: string,
+    dataMode: string,
   ) {
     const url = this.buildUrl(
       sortedMotosByWalkTime.slice(0, 9),
       destinationToString,
       'driving-traffic',
+      dataMode,
     );
 
     try {
