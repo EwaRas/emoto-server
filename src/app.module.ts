@@ -13,6 +13,7 @@ import { CurrentTripsModule } from './current-trips/current-trips.module';
   imports: [
     MongooseModule.forRoot('mongodb://localhost/emoto-app', {
       useFindAndModify: false,
+      useCreateIndex: true,
     }),
     ConfigModule.forRoot({
       isGlobal: true,

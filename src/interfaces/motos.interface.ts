@@ -12,4 +12,5 @@ export interface Moto {
   driveTime?: number | null;
   totalTravelTime?: number | null;
   isIncomming?: boolean;
+  creationTime?: Date;
 }

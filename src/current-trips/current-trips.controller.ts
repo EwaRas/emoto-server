@@ -19,3 +19,5 @@ export class CurrentTripsController {
     return this.currentTripsService.getAllTrips();
   }
 }
+
+// : Promise<TripDocument[]>
