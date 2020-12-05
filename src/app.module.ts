@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MapModule } from './map/map.module';
 import { MapboxService } from './apiServices/mapbox.service';
 import { FluctuoService } from './apiServices/fluctuo.service';
+import { CurrentTripsModule } from './current-trips/current-trips.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FluctuoService } from './apiServices/fluctuo.service';
     UserModule,
     MapModule,
     HttpModule,
+    CurrentTripsModule,
   ],
   controllers: [AppController],
   providers: [AppService, MapboxService, FluctuoService],
