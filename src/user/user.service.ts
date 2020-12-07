@@ -36,7 +36,6 @@ export class UserService {
         { $set: { latitude, longitude } },
         { new: true },
       );
-      console.log('userInfo', userInfo);
 
       return userInfo;
     } catch (error) {
