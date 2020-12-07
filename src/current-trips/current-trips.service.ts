@@ -21,7 +21,6 @@ export class CurrentTripsService {
       ] = await this.mapboxService.getCoordinates(destination);
       // get the time to expire
       const expireDate = new Date();
-      console.log('initial time', expireDate);
 
       expireDate.setSeconds(expireDate.getSeconds() + moto.totalTravelTime);
 
