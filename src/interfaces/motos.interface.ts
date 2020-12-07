@@ -6,6 +6,10 @@ export interface Moto {
   longitude: number;
   provider: {
     name: string;
+    app: {
+      android: string;
+      ios: string;
+    };
   };
   battery: number;
   walkTime?: number;

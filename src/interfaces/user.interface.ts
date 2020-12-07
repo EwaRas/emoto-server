@@ -1,4 +1,5 @@
 import { FavouriteDestination } from './favouriteDestination.interface';
+import { EmotoProvider } from './provider.interface';
 
 export interface User {
   _id?: string;
@@ -6,5 +7,6 @@ export interface User {
   password: string;
   lat: number;
   lng: number;
-  favorites?: FavouriteDestination[];
+  favourites?: FavouriteDestination[];
+  providers?: EmotoProvider[];
 }

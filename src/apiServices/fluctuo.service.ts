@@ -28,6 +28,10 @@ export class FluctuoService {
           lng
           provider {
             name
+            app {
+              android
+              ios
+            }
           }
           battery
         }

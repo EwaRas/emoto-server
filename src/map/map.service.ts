@@ -76,6 +76,18 @@ export class MapService {
         }
       });
     }
+    // todo send endpoint coordinates to the frontend
+    // ? Providers feature:
+    // todo add providers request in user controller and service by receiving the new array of providers and substitute it in db
+    // todo add providers: [providerString] property to user object
+    // todo before get bikes check if there are preferences in providers
+    // todo if so modify the query accordingly / filter motosNearUser
+    // todo check if incomingMotos have the specified provider, if not don't push
+    // ? Calculate cost of the trip feature
+    // todo hardcode thecost per minut of each company in an obj
+    // todo get driving time in minuts  multiply by cost x minut
+    // todo add a property cost per tip to Moto
+    // todo display together with travel time
     // get bikes from Fluctuo
     const motosNearUser = await this.getMotosNearUser(userCoordinates);
     // get walking times from user location
@@ -106,6 +118,7 @@ export class MapService {
     const destinationCoordinatesToString = `${destinationLongitude},${destinationLatitude};`;
 
     // get driving times from 10 closer motos to end destination
+    // todo get driving time for all motos
     const drivingTimes = await this.mapboxService.getDrivingTime(
       sortedMotosByWalkTime,
       destinationCoordinatesToString,
@@ -150,9 +163,12 @@ export class MapService {
         sortedMotosByTotalTravelTimeAndRightProperties.push(moto);
       });
     }
-    return sortedMotosByTotalTravelTimeAndRightProperties;
+    return {
+      destinationCoordinates: {
+        destinationLatitude,
+        destinationLongitude,
+      },
+      motos: sortedMotosByTotalTravelTimeAndRightProperties,
+    };
   }
 }
-
-// todo TTL
-// todo add timestamp

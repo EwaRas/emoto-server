@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { FavouriteDestination } from 'src/interfaces/favouriteDestination.interface';
+import { EmotoProvider } from '../interfaces/provider.interface';
 
 export type UserDocument = User & Document;
 
@@ -16,6 +17,8 @@ export class User {
   longitude: number;
   @Prop({ default: [] })
   favourites: FavouriteDestination[];
+  @Prop({ default: [] })
+  providers: EmotoProvider[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
