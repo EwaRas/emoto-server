@@ -76,17 +76,10 @@ export class MapService {
         }
       });
     }
-    // todo send endpoint coordinates to the frontend
-    // ? Providers feature:
-    // todo add providers request in user controller and service by receiving the new array of providers and substitute it in db
-    // todo add providers: [providerString] property to user object
-    // todo before get bikes check if there are preferences in providers
-    // todo if so modify the query accordingly / filter motosNearUser
-    // todo check if incomingMotos have the specified provider, if not don't push
     // ? Calculate cost of the trip feature
     // todo hardcode thecost per minut of each company in an obj
     // todo get driving time in minuts  multiply by cost x minut
-    // todo add a property cost per tip to Moto
+    // todo add a property cost per trip to Moto
     // todo display together with travel time
     // get bikes from Fluctuo
     const motosNearUser = await this.getMotosNearUser(userCoordinates);
@@ -102,13 +95,6 @@ export class MapService {
       walkingTimes,
       'walkTime',
     );
-    // sort motos by ascending walkTime
-    const sortedMotosByWalkTime = motosWithWalkTimes.sort(function (
-      motoA,
-      motoB,
-    ) {
-      return motoA.walkTime - motoB.walkTime;
-    });
 
     // get coordinates of the end destination and stringify them
     const [
@@ -117,16 +103,15 @@ export class MapService {
     ] = await this.mapboxService.getCoordinates(address);
     const destinationCoordinatesToString = `${destinationLongitude},${destinationLatitude};`;
 
-    // get driving times from 10 closer motos to end destination
-    // todo get driving time for all motos
+    // get driving time for all motos to end destination
     const drivingTimes = await this.mapboxService.getDrivingTime(
-      sortedMotosByWalkTime,
+      motosWithWalkTimes,
       destinationCoordinatesToString,
       'duration',
     );
     // add driving time and total time to each moto
     const motosWithDrivingAndTotalTimes = this.addTravelTimeToMotos(
-      sortedMotosByWalkTime,
+      motosWithWalkTimes,
       drivingTimes,
       'driveTime',
     );
