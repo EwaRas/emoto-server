@@ -33,7 +33,7 @@ export class UserController {
     updatedArray: FavouriteDestination[] | EmotoProvider[],
     @Param('userId') _id: string,
     @Param('propertyToUpdate') propertyToUpdate: string,
-  ) {
+  ): Promise<UserDocument> {
     return this.userService.updateUser(_id, updatedArray, propertyToUpdate);
   }
 }

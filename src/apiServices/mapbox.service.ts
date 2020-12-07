@@ -3,6 +3,7 @@ import { Moto } from 'src/interfaces/motos.interface';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class MapboxService {
@@ -22,7 +23,7 @@ export class MapboxService {
     return splitArr;
   }
 
-  private buildCoordinatesString(array) {
+  private buildCoordinatesString(array): string {
     return array.reduce((acc, moto, index) => {
       if (moto.lng && moto.lat) {
         acc += `${moto.lng},${moto.lat}${
@@ -46,15 +47,13 @@ export class MapboxService {
           `${this.mapboxURL}/directions-matrix/v1/mapbox/${travelMode}/${userCoordinates}${motosCoordinates}?sources=0&annotations=${dataMode}&access_token=${this.token}`,
         );
       });
-      console.log('urlArr', urlArr);
-
       return urlArr;
     } else {
       console.log('Mode should be walking or driving-traffic');
     }
   }
 
-  private getFromMapbox(apiUrl) {
+  private getFromMapbox(apiUrl): Observable<any> {
     return this.http.get(apiUrl).pipe(
       map((res: AxiosResponse) => {
         return res.data;
@@ -73,7 +72,7 @@ export class MapboxService {
     },
     motosNearUser: Moto[],
     dataMode: string,
-  ) {
+  ): Promise<number[]> {
     const userCoordinatesToString = `${userCoordinates.longitude},${userCoordinates.latitude};`;
     const nestedMotosArray = this.splitArray(motosNearUser, 24);
     const walkingData = [];
@@ -98,7 +97,7 @@ export class MapboxService {
     return walkingData;
   }
 
-  async getCoordinates(address: string): Promise<[number, number]> {
+  async getCoordinates(address: string): Promise<number[]> {
     const formattedAddress = this.formatAddress(address);
     const apiUrl = `${this.mapboxURL}/geocoding/v5/mapbox.places/${formattedAddress}.json?access_token=${this.token}`;
     try {
@@ -116,7 +115,7 @@ export class MapboxService {
     sortedMotosByWalkTime: Moto[],
     destinationToString: string,
     dataMode: string,
-  ) {
+  ): Promise<number[]> {
     const nestedMotosArray = this.splitArray(sortedMotosByWalkTime, 9);
     const drivingData = [];
     const apiUrls = this.buildUrl(

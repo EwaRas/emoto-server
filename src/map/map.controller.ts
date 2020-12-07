@@ -9,7 +9,13 @@ export class MapController {
   getMotosSortedByTime(
     @Body('destination') address: string,
     @Body('username') username: string,
-  ) {
+  ): Promise<{
+    destinationCoordinates: {
+      destinationLatitude: number;
+      destinationLongitude: number;
+    };
+    motos: Moto[];
+  }> {
     return this.mapService.getMotosSortedByTime(address, username);
   }
 }

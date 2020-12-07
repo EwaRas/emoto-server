@@ -39,7 +39,7 @@ export class MapService {
   private async getMotosNearUser(userCoordinates: {
     latitude: number;
     longitude: number;
-  }) {
+  }): Promise<any> {
     try {
       const response = await this.fluctuoService
         .getMotosNearUser(userCoordinates)
@@ -51,7 +51,16 @@ export class MapService {
     }
   }
 
-  async getMotosSortedByTime(address: string, username: string) {
+  async getMotosSortedByTime(
+    address: string,
+    username: string,
+  ): Promise<{
+    destinationCoordinates: {
+      destinationLatitude: number;
+      destinationLongitude: number;
+    };
+    motos: Moto[];
+  }> {
     // get current location
     const userCoordinates = await this.userService.getUserLocation(username);
 
@@ -68,7 +77,6 @@ export class MapService {
       );
       // check if incoming moto is within userLocation area
       const userLocationArea = 500000;
-      console.log('walking distances', walkingDistance);
 
       walkingDistance.forEach((distance, index) => {
         if (distance <= userLocationArea) {
@@ -95,7 +103,6 @@ export class MapService {
       walkingTimes,
       'walkTime',
     );
-
     // get coordinates of the end destination and stringify them
     const [
       destinationLongitude,
