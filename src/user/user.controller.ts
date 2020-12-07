@@ -29,11 +29,15 @@ export class UserController {
   // can be providers or favourites
   @Put(':propertyToUpdate/:userId')
   updateUserFavouritesOrProviders(
-    @Body('arrayToUpdate')
-    updatedArray: FavouriteDestination[] | EmotoProvider[],
+    @Body('updatedValues')
+    updatedFavouritesOrProviders: FavouriteDestination[] | EmotoProvider[],
     @Param('userId') _id: string,
-    @Param('propertyToUpdate') propertyToUpdate: string,
+    @Param('propertyToUpdate') favouritesOrProviders: string,
   ): Promise<UserDocument> {
-    return this.userService.updateUser(_id, updatedArray, propertyToUpdate);
+    return this.userService.updateUser(
+      _id,
+      updatedFavouritesOrProviders,
+      favouritesOrProviders,
+    );
   }
 }

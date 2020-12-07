@@ -62,18 +62,18 @@ export class UserService {
 
   async updateUser(
     _id: string,
-    updatedArray: FavouriteDestination[] | EmotoProvider[],
-    propertyToUpdate: string,
+    updatedFavouritesOrProviders: FavouriteDestination[] | EmotoProvider[],
+    favouritesOrProviders: string,
   ): Promise<UserDocument> {
     try {
       const updatedUser: UserDocument = await this.userModel.findByIdAndUpdate(
         { _id },
-        { $set: { [propertyToUpdate]: updatedArray } },
+        { $set: { [favouritesOrProviders]: updatedFavouritesOrProviders } },
         { new: true },
       );
       return updatedUser;
     } catch (error) {
-      console.log(`error updating ${propertyToUpdate} from db`, error);
+      console.log(`error updating ${favouritesOrProviders} from db`, error);
     }
   }
 }
