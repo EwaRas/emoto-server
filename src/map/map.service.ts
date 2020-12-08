@@ -84,11 +84,7 @@ export class MapService {
         }
       });
     }
-    // ? Calculate cost of the trip feature
-    // todo hardcode thecost per minut of each company in an obj
-    // todo get driving time in minuts  multiply by cost x minut
-    // todo add a property cost per trip to Moto
-    // todo display together with travel time
+
     // get bikes from Fluctuo
     const motosNearUser = await this.getMotosNearUser(userCoordinates);
     // get walking times from user location
