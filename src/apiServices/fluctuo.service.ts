@@ -46,7 +46,6 @@ export class FluctuoService {
       .post(`https://flow-api.fluctuo.com/v1?access_token=${this.token}`, query)
       .pipe(
         map((axiosRes: AxiosResponse) => {
-          // console.log('axiosRes.data in service', axiosRes.data);
           return axiosRes.data;
         }),
       );

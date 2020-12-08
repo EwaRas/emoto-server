@@ -61,10 +61,6 @@ export class MapboxService {
     );
   }
 
-  private formatAddress(address: string): string {
-    return address.split(' ').join('%20');
-  }
-
   async getWalkingData(
     userCoordinates: {
       latitude: number;
@@ -98,8 +94,7 @@ export class MapboxService {
   }
 
   async getCoordinates(address: string): Promise<number[]> {
-    const formattedAddress = this.formatAddress(address);
-    const apiUrl = `${this.mapboxURL}/geocoding/v5/mapbox.places/${formattedAddress}.json?access_token=${this.token}`;
+    const apiUrl = `${this.mapboxURL}/geocoding/v5/mapbox.places/${address}.json?access_token=${this.token}`;
     try {
       const destinationCoordinatesPromise = await this.getFromMapbox(
         apiUrl,

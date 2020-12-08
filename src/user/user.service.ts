@@ -13,11 +13,7 @@ export class UserService {
 
   async validateUsername(username: string): Promise<boolean> {
     try {
-      console.log('username', username);
-
       const userExists = await this.userModel.findOne({ username });
-      console.log('userExists', userExists);
-
       if (!userExists) return false;
       return true;
     } catch (error) {
