@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { Moto } from 'src/interfaces/motos.interface';
 import { MapService } from './map.service';
 
@@ -6,10 +6,11 @@ import { MapService } from './map.service';
 export class MapController {
   constructor(private mapService: MapService) {}
 
-  @Get(':destination/:username')
+  // @Get(':destination/:username')
+  @Get()
   getMotosSortedByTime(
-    @Param('destination') address: string,
-    @Param('username') username: string,
+    @Query('destination') address: string,
+    @Query('username') username: string,
   ): Promise<{
     destinationCoordinates: {
       destinationLatitude: number;
