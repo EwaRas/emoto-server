@@ -28,9 +28,16 @@ export class CurrentTripsService {
       const currentTrip = {
         expireAt: expireDate,
         moto: {
-          ...moto,
+          id: moto.id,
+          publicId: moto.publicId,
+          type: moto.type,
           latitude: destinationLatitude,
           longitude: destinationLongitude,
+          provider: moto.provider,
+          battery: moto.battery,
+          walkTime: moto.walkTime,
+          driveTime: moto.driveTime,
+          totalTravelTime: moto.totalTravelTime,
           isIncomming: true,
           creationTime: Date.now(),
         },
