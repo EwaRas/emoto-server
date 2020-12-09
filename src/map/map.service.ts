@@ -128,20 +128,15 @@ export class MapService {
     );
 
     // change property lng and lat to match with frontend requirements
-    const sortedMotosByTotalTimeRefactored = sortedMotosByTotalTravelTime.map(
-      (moto) => {
-        const motoWithTheRightPopertyNames = {
-          ...moto,
-          latitude: moto.lat,
-          longitude: moto.lng,
-        };
-        return motoWithTheRightPopertyNames;
-      },
-    );
+    sortedMotosByTotalTravelTime.forEach((moto) => ({
+      ...moto,
+      latitude: moto.lat,
+      longitude: moto.lng,
+    }));
     // check if there are incoming motos and add them to the available motos
     if (incomingMotos.length) {
       incomingMotos.forEach((moto) => {
-        sortedMotosByTotalTimeRefactored.push(moto);
+        sortedMotosByTotalTravelTime.push(moto);
       });
     }
     return {
@@ -149,7 +144,7 @@ export class MapService {
         destinationLatitude,
         destinationLongitude,
       },
-      motos: sortedMotosByTotalTimeRefactored,
+      motos: sortedMotosByTotalTravelTime,
     };
   }
 }
