@@ -1,16 +1,16 @@
-## eMoto Server
+# eMoto Server
 
-![eMoto-logo](C:\Users\msubi\Desktop\thesis\eMoto-logo.png)
+![eMoto-logo](https://github.com/EwaRas/moto-server/blob/main/eMotoLogo?raw=true)
 
-Web Server for the eMoto app. Find the client side on this repo: <link to repo> 
+Web Server for the eMoto app. Find the client side on this repo: [eMoto-client](https://github.com/Marcel2408/emoto-finder)
 
 ## Description
 
-Our server is built using [Nest.js](https://nestjs.com/) together with [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com/). 
+Our server is built using [Nest.js](https://nestjs.com/) together with [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com/).
 
 Nest.js is a Node.js framework that takes advantage of the latest JavaScript features, and we combined it with TypeScript for a more robust code environment.
 
-Since our server works with [Fluctuo](https://fluctuo.com/) API to get the real-time moto data and two [Mapbox](https://www.mapbox.com/) APIs to geolocate the motos ([Geocoding](https://docs.mapbox.com/api/search/geocoding/) and [Navigation](https://docs.mapbox.com/api/navigation/)), you will need tokens to be able to send requests.
+Since our server works with [Fluctuo](https://fluctuo.com/) API to get the real-time moto data and two [Mapbox](https://www.mapbox.com/) APIs to geolocate the motos: ([Geocoding](https://docs.mapbox.com/api/search/geocoding/) and [Navigation](https://docs.mapbox.com/api/navigation/)), you will need tokens to be able to send requests.
 
 ## Installation
 
@@ -24,7 +24,7 @@ Create a ```.env``` in the root level of this repo.
 
 Fill the file with the following info:
 
- ``` 
+ ```
 FLUCTUO_TOKEN=<replace this with your Fluctuo token>
 MAPBOX_TOKEN=<replace this with your Mapbox token>
  ```
@@ -35,7 +35,7 @@ MAPBOX_TOKEN=<replace this with your Mapbox token>
 $ npm run start
 ```
 
-The server will run on localhost:4000 
+The server will run on localhost:4000
 
 ## Developers
 
