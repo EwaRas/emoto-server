@@ -13,7 +13,7 @@ Even in the case of not having any motos around, they can see the incoming ones 
 
 ## Description
 
-Web Server for the eMoto app. Find the client side on this repo: [eMoto-client](https://github.com/Marcel2408/emoto-finder).
+This repo contains web server for the eMoto app. Find the client side in this repo: [eMoto-client](https://github.com/Marcel2408/emoto-finder).
 
 Our server is built using [Nest.js](https://nestjs.com/) together with [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com/).
 
