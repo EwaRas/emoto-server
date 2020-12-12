@@ -1,6 +1,6 @@
 # eMoto Server
 
-![eMoto-logo](https://github.com/EwaRas/moto-server/blob/main/eMotoLogo?raw=true)
+![eMoto-logo](https://github.com/EwaRas/moto-server/blob/main/eMotoLogo.png)
 
 Web Server for the eMoto app. Find the client side on this repo: [eMoto-client](https://github.com/Marcel2408/emoto-finder)
 
