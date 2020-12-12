@@ -14,6 +14,13 @@ Since our server works with [Fluctuo](https://fluctuo.com/) API to get the real-
 
 ## Installation
 
+Clone the repo:
+
+```bash
+$ git clone https://github.com/EwaRas/emoto-server.git
+$ cd emoto-server
+```
+
 Install dependencies:
 
 ```bash
