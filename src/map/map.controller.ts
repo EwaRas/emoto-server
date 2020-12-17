@@ -6,7 +6,6 @@ import { MapService } from './map.service';
 export class MapController {
   constructor(private mapService: MapService) {}
 
-  // @Get(':destination/:username')
   @Get()
   getMotosSortedByTime(
     @Query('destination') address: string,

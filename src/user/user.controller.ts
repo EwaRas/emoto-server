@@ -7,7 +7,6 @@ import { EmotoProvider } from 'src/interfaces/provider.interface';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
-  // todo change to Get passing auth headers
   @Post()
   login(@Body('username') username: string): Promise<boolean> {
     return this.userService.validateUsername(username);
