@@ -1,5 +1,6 @@
 import { HttpModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MapModule } from './map/map.module';
@@ -9,9 +10,13 @@ import { CurrentTripsModule } from './current-trips/current-trips.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/emoto-app', {
-      useFindAndModify: false,
-      useCreateIndex: true,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('MONGODB_URI'),
+        useNewUrlParser: true,
+      }),
+      inject: [ConfigService],
     }),
     ConfigModule.forRoot({
       isGlobal: true,
