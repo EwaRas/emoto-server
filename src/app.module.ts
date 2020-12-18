@@ -10,6 +10,9 @@ import { CurrentTripsModule } from './current-trips/current-trips.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -17,9 +20,6 @@ import { CurrentTripsModule } from './current-trips/current-trips.module';
         useNewUrlParser: true,
       }),
       inject: [ConfigService],
-    }),
-    ConfigModule.forRoot({
-      isGlobal: true,
     }),
     UserModule,
     MapModule,
