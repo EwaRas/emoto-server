@@ -18,6 +18,8 @@ import { CurrentTripsModule } from './current-trips/current-trips.module';
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get('MONGODB_URI'),
         useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
       }),
       inject: [ConfigService],
     }),
